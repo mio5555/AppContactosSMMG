@@ -5,7 +5,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -29,7 +34,24 @@ fun HomeScreen(navController: NavHostController) {
         Contact(3, "Carlos (Abuelo)", "666 777 888", "carlos@email.com", "Mi abuelo", R.drawable.carlos)
     )
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Contactos") }) }
+        topBar = { TopAppBar(title = { Text("Contactos") },
+            /*Botón para "cerrar sesión" y poder volver a loggear.
+            (Actualmente este botón da error a veces, si navegamos muy rápido o cosas así, pero normalmente funciona.
+            Parece un error del emulador más que del código.)
+             */
+            navigationIcon = {
+                IconButton(onClick = {
+                    //Limpiamos cualquier contacto que podamos haber selecionado al entrar a ver detalles.
+                    SelectedContact.contact = null
+                    /*Navegamos a la pantalla de login y limpiamos el backstack de la memoria para no permitir volver
+                     al home dándole a la flecha de atrás del móvil, teniendo si o si que "iniciar sesión" de nuevo.
+                     Al igual que en la loginscreen, usamos el popUpTo(0) para asegurarnos de que se limpia entero.
+                    */
+                    navController.navigate("login"){ popUpTo(0) { inclusive = true }}
+                }) {
+                    Icon(Icons.Default.ExitToApp, contentDescription = "Cerrar sesión")
+                }
+            }) }
     ) { paddingValues ->
         LazyColumn(modifier = Modifier.padding(paddingValues)) {
             //La función items de LazyColumn actúa como un forEach para los elementos de nuestra lista
