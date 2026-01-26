@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,12 +20,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.dam2at12.agendacontactoproyecto.data.Contact
+import com.dam2at12.agendacontactoproyecto.data.local.entity.ContactEntity
 
 
 //Función reutilizable para poder acceder a los detalles de cada contacto
 @Composable
-fun ContactItem(contact: Contact, modifier: Modifier) {
+fun ContactItem(contactEntity: ContactEntity, modifier: Modifier) {
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -35,20 +34,20 @@ fun ContactItem(contact: Contact, modifier: Modifier) {
     ) {
         Row {
             Image(
-                painter = painterResource(contact.imagen),
-                contentDescription = contact.name,
+                painter = painterResource(contactEntity.imagen),
+                contentDescription = contactEntity.name,
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
             )
             Column(modifier = Modifier.padding(start = 12.dp)) {
                 Text(
-                    text = contact.name,
+                    text = contactEntity.name,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = contact.info,
+                    text = contactEntity.info,
                     fontSize = 14.sp
                 )
             }

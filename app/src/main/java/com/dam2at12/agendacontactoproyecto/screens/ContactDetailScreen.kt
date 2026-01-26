@@ -1,6 +1,5 @@
 package com.dam2at12.agendacontactoproyecto.screens
 
-import android.adservices.adid.AdId
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -25,7 +23,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.dam2at12.agendacontactoproyecto.data.Contact
 import com.dam2at12.agendacontactoproyecto.data.SelectedContact
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,7 +30,7 @@ import com.dam2at12.agendacontactoproyecto.data.SelectedContact
 fun ContactDetailScreen(navController: NavHostController) {
 
     //Cogemos el contacto seleccionado de la variable compartida
-    val contact = SelectedContact.contact
+    val contact = SelectedContact.contactEntity
 
     /* Mensaje de error por si no hay contacto seleccionado.
        (Esto no debería poder pasar, pero cubrimos el error por si acaso).
