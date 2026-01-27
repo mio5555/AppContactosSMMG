@@ -29,8 +29,8 @@ interface ContactDao {
     @Update
     suspend fun actualizarContacto(contacto: ContactEntity)
 
-    //Seleccionar 1 por id - Pendiente de acabar
-//    @Query("SELECT * FROM contactos WHERE id = "+num+"")
-//    fun obtenerUnContacto(num: Int): Flow<ContactEntity?>
+    //Seleccionar 1 por id
+    @Query("SELECT * FROM contactos WHERE id = :num")
+    fun obtenerUnContacto(num: Int): Flow<ContactEntity?>
 
 }
