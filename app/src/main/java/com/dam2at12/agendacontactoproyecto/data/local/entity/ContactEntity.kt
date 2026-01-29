@@ -11,5 +11,5 @@ data class ContactEntity(
     val phone: String,
     val email: String,
     val info: String,
-    val imagen: Int
+    val imagen: String //Si lo cogemos de la api tiene que ser tipo String
 )
