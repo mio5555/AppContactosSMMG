@@ -31,6 +31,6 @@ interface ContactDao {
 
     //Seleccionar 1 por id
     @Query("SELECT * FROM contactos WHERE id = :num")
-    fun obtenerUnContacto(num: Int): Flow<ContactEntity?>
+    fun obtenerUnContacto(num: Int): ContactEntity?
 
 }

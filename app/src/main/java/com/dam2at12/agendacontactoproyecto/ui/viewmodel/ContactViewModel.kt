@@ -87,18 +87,12 @@ class ContactViewModel @Inject constructor(
     //IDEA PARA FUTURO - CREAR VAL contactoSeleccionado y que la funcion de buscarContacto actualice ese contacto como StateFlow<ContactEntity>
 //      si lo encuentra. Luego en la vista se recoge como ContactEntity
 
-//    fun buscarContact(id: Int): ContactEntity?
-//    {
+//    fun buscarContact(id: Int): ContactEntity? {
 //        viewModelScope.launch {
 //            //No se si lo de abajo funciona asi que lo comento
 //            // val contacto : StateFlow<ContactEntity> = contactRepository.obtenerUnContacto(id) as StateFlow<ContactEntity>
-//            val contactoMutable = MutableStateFlow<ContactEntity?>(null)
-//            val contacto : StateFlow<ContactEntity?> = contactoMutable
-//            contactRepository.obtenerUnContacto(id).collect {
-//                val contacto= it
-//            }
-//            return contacto
-//
+//            val contacto = contactRepository.obtenerUnContacto(id)
 //        }
-
+//        return contacto
+//    }
 }

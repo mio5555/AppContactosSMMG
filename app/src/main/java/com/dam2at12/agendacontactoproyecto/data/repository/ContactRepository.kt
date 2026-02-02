@@ -47,7 +47,7 @@ class ContactRepository @Inject constructor(
     }
 
     //Función para obtener un contacto mediante su id
-    fun obtenerUnContacto(id: Int): Flow<ContactEntity?>
+    fun obtenerUnContacto(id: Int): ContactEntity?
     {
         return contactDao.obtenerUnContacto(id)
     }
