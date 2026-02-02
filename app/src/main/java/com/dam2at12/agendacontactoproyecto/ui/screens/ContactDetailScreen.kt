@@ -27,7 +27,7 @@ import com.dam2at12.agendacontactoproyecto.data.SelectedContact
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ContactDetailScreen(navController: NavHostController) {
+fun ContactDetailScreen(navController: NavHostController, id: Int) {
 
     //Cogemos el contacto seleccionado de la variable compartida
     val contact = SelectedContact.contactEntity
