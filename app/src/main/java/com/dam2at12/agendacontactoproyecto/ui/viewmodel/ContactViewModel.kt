@@ -18,9 +18,11 @@ class ContactViewModel @Inject constructor(
 
     //Estado mutable con la lista de contactos
     private val contactosMutables = MutableStateFlow<List<ContactEntity>>(emptyList())
+    private val contactoSeleccionadoMutable = MutableStateFlow<ContactEntity?>(null)
 
     //Estado observable no modificable
     val contactos: StateFlow<List<ContactEntity>> = contactosMutables
+    val contactoSeleccionado: StateFlow<ContactEntity?> = contactoSeleccionadoMutable
 
     //Inicializamos el ViewModel y guardamos todos los contactos en contactosMutables
     init {
@@ -40,12 +42,13 @@ class ContactViewModel @Inject constructor(
                 val foto = contactRepository.getNewPicture()
 
                 //el id se genera solo y la imagen no es la contactPicture sino su thumbnail(la cadena)
-                val contacto= ContactEntity(
-                    name= nombre,
+                val contacto = ContactEntity(
+                    name = nombre,
                     phone = telefono,
                     email = correo,
                     info = informacion,
-                    imagen = foto.thumbnail)//
+                    imagen = foto.thumbnail
+                )//
 
                 //Escribimos un log con los atributos del contacto y la etiqueta del ViewModel
                 Log.d("ContactoViewModel", contacto.toString())
@@ -74,25 +77,23 @@ class ContactViewModel @Inject constructor(
             contactRepository.eliminarContact(contacto)
         }
     }
+
     //Actualiza un contacto
-    fun actualizarContact(contacto: ContactEntity)
-    {
+    fun actualizarContact(contacto: ContactEntity) {
         viewModelScope.launch {
             contactRepository.actualizarContacto(contacto)
         }
 
     }
-    //Busca un contacto por id - NO FUNCIONA
 
-    //IDEA PARA FUTURO - CREAR VAL contactoSeleccionado y que la funcion de buscarContacto actualice ese contacto como StateFlow<ContactEntity>
-//      si lo encuentra. Luego en la vista se recoge como ContactEntity
+//Busca un único contacto por id y lo guarda en una variable de estado.
+    fun buscarContact(id: Int){
+        viewModelScope.launch {
+            val contacto = contactRepository.obtenerUnContacto(id)
 
-//    fun buscarContact(id: Int): ContactEntity? {
-//        viewModelScope.launch {
-//            //No se si lo de abajo funciona asi que lo comento
-//            // val contacto : StateFlow<ContactEntity> = contactRepository.obtenerUnContacto(id) as StateFlow<ContactEntity>
-//            val contacto = contactRepository.obtenerUnContacto(id)
-//        }
-//        return contacto
-//    }
+            contactoSeleccionadoMutable.value = contacto
+        }
+
+    }
+
 }
