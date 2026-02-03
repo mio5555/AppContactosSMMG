@@ -16,10 +16,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.dam2at12.agendacontactoproyecto.data.local.entity.ContactEntity
 
 
@@ -33,30 +35,54 @@ fun ContactItem(contactEntity: ContactEntity, modifier: Modifier) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Row {
-            Image(
-                painter = painterResource(contactEntity.imagen),
+            //Imagen del API
+            AsyncImage(
+                model = contactEntity.imagen,
                 contentDescription = contactEntity.name,
                 modifier = Modifier
-                    .size(48.dp)
-                    .clip(CircleShape)
+                    .weight(1f)
+                    .padding(8.dp)
+                    .size(60.dp)
+                    .clip(shape = CircleShape),
+                contentScale = ContentScale.Crop
             )
             Column(modifier = Modifier.padding(start = 12.dp)) {
-                Text(
-                    text = contactEntity.name,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = contactEntity.info,
-                    fontSize = 14.sp
-                )
+                Row {
+                    Text(
+                        text = contactEntity.name,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                Row {
+                    Text(
+                        text = contactEntity.phone,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal
+                    )
+                }
+                Row {
+                    Column {
+                        Row {
+                            Text(
+                                text = contactEntity.email,
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Normal
+                            )
+                        }
+                    }
+                    Row {
+                        Text(
+                            text = contactEntity.info,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Normal
+                        )
+                    }
+                }
+
+
             }
         }
-        Box {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = "Ver contacto"
-            )
-        }
+
     }
 }

@@ -117,6 +117,7 @@ fun AddScreen(navController: NavHostController) {
                 onClick = {
                     viewModel.addContact(name,phone,email,info)
 
+
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
