@@ -1,5 +1,6 @@
 package com.dam2at12.agendacontactoproyecto.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,7 +23,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.dam2at12.agendacontactoproyecto.R
 import com.dam2at12.agendacontactoproyecto.data.local.entity.ContactEntity
-import com.dam2at12.agendacontactoproyecto.data.SelectedContact
 import com.dam2at12.agendacontactoproyecto.navigation.Screen
 import com.dam2at12.agendacontactoproyecto.ui.viewmodel.ContactViewModel
 import com.example.contactsapp.ui.components.ContactItem
@@ -79,8 +79,9 @@ fun HomeScreen(navController: NavHostController) {
                 ContactItem(
                     contactEntity = contact,
                     modifier = Modifier.clickable {
-                        SelectedContact.contactEntity = contact
-                        navController.navigate("detail/${contact.id}")
+
+                        Log.d("ContactoViewModel", "Estamos intentando acceder al detalle de ${contact.id}")
+                        navController.navigate("${Screen.DetailScreen.ruta}/${contact.id}")
                     }
                 )
             }

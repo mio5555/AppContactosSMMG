@@ -40,6 +40,13 @@ class ContactViewModel @Inject constructor(
             try {
                 //Obtener la imagen de la API
                 val foto = contactRepository.getNewPicture()
+                var picture : String
+                if(foto.thumbnail==null)
+                    picture="res/drawable/avatardefault.jpg"
+                else
+                    picture=foto.thumbnail
+
+
 
                 //el id se genera solo y la imagen no es la contactPicture sino su thumbnail(la cadena)
                 val contacto = ContactEntity(
@@ -47,7 +54,7 @@ class ContactViewModel @Inject constructor(
                     phone = telefono,
                     email = correo,
                     info = informacion,
-                    imagen = foto.thumbnail
+                    imagen = picture
                 )//
 
                 //Escribimos un log con los atributos del contacto y la etiqueta del ViewModel
@@ -89,7 +96,9 @@ class ContactViewModel @Inject constructor(
 //Busca un único contacto por id y lo guarda en una variable de estado.
     fun buscarContact(id: Int){
         viewModelScope.launch {
+            Log.d("ContactoViewModel", "Entramos en el viewmodel y buscamos contacto")
             val contacto = contactRepository.obtenerUnContacto(id)
+            Log.d("ContactoViewModel", "Entramos en el viewmodel despues de buscar contacto. El contacto es ${contacto?.name}")
 
             contactoSeleccionadoMutable.value = contacto
         }

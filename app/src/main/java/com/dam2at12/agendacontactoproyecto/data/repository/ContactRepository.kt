@@ -1,5 +1,6 @@
 package com.dam2at12.agendacontactoproyecto.data.repository
 
+import android.util.Log
 import com.dam2at12.agendacontactoproyecto.data.local.dao.ContactDao
 import com.dam2at12.agendacontactoproyecto.data.local.entity.ContactEntity
 import com.dam2at12.agendacontactoproyecto.data.remote.datasource.ApiService
@@ -47,8 +48,9 @@ class ContactRepository @Inject constructor(
     }
 
     //Función para obtener un contacto mediante su id
-    fun obtenerUnContacto(id: Int): ContactEntity?
+    suspend fun obtenerUnContacto(id: Int): ContactEntity?
     {
+        Log.d("ContactoViewModel", "Entramos en el contact repositorio antes de buscar contacto")
         return contactDao.obtenerUnContacto(id)
     }
 }
