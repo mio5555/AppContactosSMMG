@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.dam2at12.agendacontactoproyecto.navigation.Screen
 import com.dam2at12.agendacontactoproyecto.ui.viewmodel.ContactViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -116,6 +117,7 @@ fun AddScreen(navController: NavHostController) {
             Button(
                 onClick = {
                     viewModel.addContact(name,phone,email,info)
+                    navController.navigate(Screen.HomeScreen.ruta)
 
 
                 },

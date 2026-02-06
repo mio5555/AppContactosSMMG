@@ -80,7 +80,7 @@ fun HomeScreen(navController: NavHostController) {
                     contactEntity = contact,
                     modifier = Modifier.clickable {
                         SelectedContact.contactEntity = contact
-                        navController.navigate("contact")
+                        navController.navigate("detail/${contact.id}")
                     }
                 )
             }

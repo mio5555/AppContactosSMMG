@@ -30,6 +30,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.dam2at12.agendacontactoproyecto.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -104,7 +105,7 @@ fun LoginScreen(navController: NavHostController) {
             //Botón de login (funciona poniendo cualquier valor o incluso sin poner nada)
             Button(
                 onClick = {
-                    navController.navigate("home") {
+                    navController.navigate(Screen.HomeScreen.ruta) {
                         /*Con popUpTo limpiamos el backstack para no poder volver a loginscreen con la flecha de atrás
                         del teléfono (Hemos incluido un botón en la topbar de la homescreen para "cerrar sesión",
                         que será la forma de volver a la loginscreen). Usamos popUpTo 0 para asegurarnos de que se limpia entero.

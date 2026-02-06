@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.dam2at12.agendacontactoproyecto.ui.screens.AddScreen
 import com.dam2at12.agendacontactoproyecto.ui.screens.ContactDetailScreen
 import com.dam2at12.agendacontactoproyecto.ui.screens.HomeScreen
 import com.dam2at12.agendacontactoproyecto.ui.screens.LoginScreen
