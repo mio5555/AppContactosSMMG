@@ -21,8 +21,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.dam2at12.agendacontactoproyecto.R
-import com.dam2at12.agendacontactoproyecto.data.local.entity.ContactEntity
 import com.dam2at12.agendacontactoproyecto.navigation.Screen
 import com.dam2at12.agendacontactoproyecto.ui.viewmodel.ContactViewModel
 import com.example.contactsapp.ui.components.ContactItem

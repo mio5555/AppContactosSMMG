@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.dam2at12.agendacontactoproyecto.ui.screens.AddScreen
 import com.dam2at12.agendacontactoproyecto.ui.screens.ContactDetailScreen
+import com.dam2at12.agendacontactoproyecto.ui.screens.EditScreen
 import com.dam2at12.agendacontactoproyecto.ui.screens.HomeScreen
 import com.dam2at12.agendacontactoproyecto.ui.screens.LoginScreen
 
@@ -45,7 +46,17 @@ fun AppNavigation() {
         composable (Screen.AddScreen.ruta){ AddScreen(navController) }
 
 
+        composable (
+            route = "${Screen.EditScreen.ruta}/{contactId}", //contactId es un elemento dinámico porque va cambiando
+            arguments = listOf(navArgument("contactId") { type = NavType.IntType })
+        ){navBackStackEntry -> //navBackStackEntry es un objeto que contiene la información de la navegación hacia la pantalla
+            val contactId = navBackStackEntry.arguments?.getInt("contactId") ?: 0 //Operador Elvis. En caso de venir vacío el id es = 0
+
+            EditScreen(navController, contactId) //Es obligatorio nombrar el argumento navController porque es el segundo
+        }
+
+
+        }
 
     }
 
-}

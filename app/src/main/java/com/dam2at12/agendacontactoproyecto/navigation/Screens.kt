@@ -5,4 +5,6 @@ sealed class Screen (val ruta: String) {
     object LoginScreen: Screen("login")
     object DetailScreen: Screen("detail")
     object AddScreen: Screen("add")
+
+    object EditScreen: Screen("edit")
 }
