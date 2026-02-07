@@ -5,12 +5,17 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -34,6 +39,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.dam2at12.agendacontactoproyecto.R
+import com.dam2at12.agendacontactoproyecto.navigation.Screen
 import com.dam2at12.agendacontactoproyecto.ui.viewmodel.ContactViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -86,6 +92,7 @@ fun ContactDetailScreen(navController: NavHostController, id: Int) {
                 )
                 if (resId != 0) resId else R.drawable.avatardefault
             }
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -94,20 +101,42 @@ fun ContactDetailScreen(navController: NavHostController, id: Int) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                AsyncImage(
-                    model = model, //!! lanza error si contactoSeleccionado es null, pero si estamos dentro del let nunca será null
-                    contentDescription = contactoSeleccionado!!.name,
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .size(120.dp)
-                        .clip(shape = CircleShape),
-                    contentScale = ContentScale.Crop
-                )
-                Text(text = "Nombre: ${contactoSeleccionado!!.name}", fontSize = 18.sp)
-                Text(text = "Teléfono: ${contactoSeleccionado!!.phone}", fontSize = 16.sp)
-                Text(text = "Email: ${contactoSeleccionado!!.email}", fontSize = 16.sp)
-                Text(text = "Información del contacto: ${contactoSeleccionado!!.info}", fontSize = 16.sp)
-            }
+
+                    AsyncImage(
+                        model = model, //!! lanza error si contactoSeleccionado es null, pero si estamos dentro del let nunca será null
+                        contentDescription = contactoSeleccionado!!.name,
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .size(120.dp)
+                            .clip(shape = CircleShape),
+                        contentScale = ContentScale.Crop
+                    )
+                    Text(text = "Nombre: ${contactoSeleccionado!!.name}", fontSize = 18.sp)
+                    Text(text = "Teléfono: ${contactoSeleccionado!!.phone}", fontSize = 16.sp)
+                    Text(text = "Email: ${contactoSeleccionado!!.email}", fontSize = 16.sp)
+                    Text(
+                        text = "Información del contacto: ${contactoSeleccionado!!.info}",
+                        fontSize = 16.sp
+                    )
+                Spacer(Modifier.height(264.dp))
+                Row {
+                    Button(onClick = {
+                        viewModel.eliminarContact(contactoSeleccionado!!)
+                        navController.navigate(Screen.HomeScreen.ruta)
+
+                    }) {
+                        Text("Eliminar contacto")
+                    }
+                    Spacer(Modifier.width(16.dp))
+                    Button(onClick = {
+
+                    }) {
+                        Text("Editar contacto")
+                    }
+                }
+                }
+
+
         } ?: Box( //Si el contacto es null, entraremos por aquí y se mostrará un círculo de carga
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
