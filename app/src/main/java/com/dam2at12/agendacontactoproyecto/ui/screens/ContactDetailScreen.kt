@@ -65,7 +65,7 @@ fun ContactDetailScreen(navController: NavHostController, id: Int) {
             TopAppBar(
                 title = { Text("Detalle del contacto") },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = { navController.navigate(Screen.HomeScreen.ruta) }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
                     }
                 }
@@ -121,7 +121,9 @@ fun ContactDetailScreen(navController: NavHostController, id: Int) {
                 Row {
                     Button(onClick = {
                         viewModel.eliminarContact(contactoSeleccionado!!)
-                        navController.navigate(Screen.HomeScreen.ruta)
+                        navController.navigate(Screen.HomeScreen.ruta){
+                            popUpTo(0) { inclusive = true }
+                        }
 
                     }) {
                         Text("Eliminar contacto")
@@ -130,6 +132,9 @@ fun ContactDetailScreen(navController: NavHostController, id: Int) {
                     Button(onClick = {
 
                         navController.navigate("${Screen.EditScreen.ruta}/${contactoSeleccionado!!.id}")
+                        {
+                            popUpTo(0) { inclusive = true }
+                        }
 
                     }) {
                         Text("Editar contacto")

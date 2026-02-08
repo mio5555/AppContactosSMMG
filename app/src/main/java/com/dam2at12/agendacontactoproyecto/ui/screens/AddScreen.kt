@@ -127,6 +127,9 @@ fun AddScreen(navController: NavHostController) {
                         Toast.LENGTH_SHORT, //Duración del toast (corta aprox. 2s o larga aprox. 4 s)
                     ).show() //Muestra el toast en pantalla
                     navController.navigate(Screen.HomeScreen.ruta)
+                    {
+                        popUpTo(0) { inclusive = true }
+                    }
 
 
                 },

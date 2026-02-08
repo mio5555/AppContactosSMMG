@@ -155,6 +155,9 @@ fun EditScreen(navController: NavHostController, id: Int) {
                             Toast.LENGTH_SHORT, //Duración del toast (corta aprox. 2s o larga aprox. 4 s)
                         ).show() //Muestra el toast en pantalla
                         navController.navigate("${Screen.DetailScreen.ruta}/${contactoSeleccionado!!.id}")
+                        {
+                            popUpTo(0) { inclusive = true }
+                        }
 
 
                     },
