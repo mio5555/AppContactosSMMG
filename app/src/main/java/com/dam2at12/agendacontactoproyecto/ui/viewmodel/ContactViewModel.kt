@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,13 +39,21 @@ class ContactViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
+                var picture : String //Creamos la variable donde se guardara
                 //Obtener la imagen de la API
-                val foto = contactRepository.getNewPicture()
-                var picture : String
-                if(foto.thumbnail==null)
-                    picture="res/drawable/avatardefault.jpg"
-                else
-                    picture=foto.thumbnail
+                try {
+
+                    val foto = contactRepository.getNewPicture()
+
+                    if(foto.thumbnail==null) //ERROR SI NO SE CARGA DE LA API
+                        picture="res/drawable/avatardefault.jpg"
+                    else
+                        picture=foto.thumbnail
+                }catch (e: Exception) //Error si se cae la API
+                {
+                   picture="res/drawable/avatardefault.jpg"
+                }
+
 
 
 
@@ -72,7 +81,7 @@ class ContactViewModel @Inject constructor(
     }
 
     //Insertamos contacto en la BBDD a través del repositorio
-    fun insertarContact(contacto: ContactEntity) {
+    suspend fun insertarContact(contacto: ContactEntity) {
         viewModelScope.launch {
             contactRepository.insertarContact(contacto)
         }

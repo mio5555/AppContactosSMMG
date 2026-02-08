@@ -17,6 +17,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -30,6 +31,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.dam2at12.agendacontactoproyecto.navigation.Screen
 import com.dam2at12.agendacontactoproyecto.ui.viewmodel.ContactViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -117,18 +119,33 @@ fun AddScreen(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
+            /*
+            En el caso de que la conexión a la API tarde más de la cuenta, esta podrá no acabarse antes de que se
+            navegue a la pantalla de Home. Para evitarlo, hemos sincronizado las dos funciones (además de hacer
+            que viewModel.addContact sea suspend) con un scope y así nos aseguramos de que cuando se navegue
+            a Home siempre haya un contacto.
+             */
+            val scope = rememberCoroutineScope()
             //Botón de añadir contacto
             Button(
                 onClick = {
-                    viewModel.addContact(name,phone,email,info)
-                    Toast.makeText(
-                        context, //Contexto donde mostrar el Toast. En este caso: pantalla para agregar tarea
-                        "Tarea agregada correctamente", //Mensaje del toast
-                        Toast.LENGTH_SHORT, //Duración del toast (corta aprox. 2s o larga aprox. 4 s)
-                    ).show() //Muestra el toast en pantalla
-                    navController.navigate(Screen.HomeScreen.ruta)
+                    scope.launch {
+                        viewModel.addContact(name, phone, email, info)
+                        Toast.makeText(
+                            context, //Contexto donde mostrar el Toast. En este caso: pantalla para agregar tarea
+                            "Tarea agregada correctamente", //Mensaje del toast
+                            Toast.LENGTH_SHORT, //Duración del toast (corta aprox. 2s o larga aprox. 4 s)
+                        ).show() //Muestra el toast en pantalla
+                        navController.navigate(Screen.HomeScreen.ruta)
+                        /*
                     {
+                        Da error cuando la API esta caida, asi que lo comentamos por si acaso.
+                        Lo suyo sería tenerlo para evitar que, tras añadir un contacto, puedas volver
+                        a la pantalla de añadir dicho contacto
                         popUpTo(0) { inclusive = true }
+                    }
+
+                         */
                     }
 
 
