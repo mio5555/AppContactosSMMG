@@ -14,7 +14,7 @@ Crearemos un sistema de navegación para poder movernos libremente por las panta
 Nuestra app mantendrá persistencia de datos, para evitar que se borren entre sesiones.
 Buscaremos separar la lógica de datos de la lógica gráfica de como mostrar dichos datos con una arquitectura MVVM..
 Exploraremos la posibilidad de cargar ciertos datos de internet, en concreto de una API.
-Intentaremos gestionar la conectividad y sus permisos, a la vez que diferentes intents.
+Intentaremos gestionar la conectividad y sus permisos.
 Diseñaremos una estructura de control de errores para que, si algo falla, haya un “plan B” y la app no colapse.
 Compartiremos nuestra app con todos los posibles usuarios, de la manera más accesible posible.
 
@@ -49,8 +49,7 @@ API:
 
 Conectividad e Interacción con otras apps:
 
-A saber
-
+Implementamos clases que nos permiten comprobar el estado de red actual
 
 Gestión de errores:
 
