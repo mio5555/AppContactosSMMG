@@ -15,8 +15,7 @@ import kotlinx.coroutines.flow.callbackFlow
 val Context.currentConnectivityState: ConnectionStatus
     get() {
 // Pedimos a Android el "servicio de conectividad". Es el objeto que sabe qué redes están activas.
-        val connectivityManager =
-            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 // Calculamos y devolvemos el estado actual usando la función auxiliar definida abajo
                 return getCurrentConnectivityStatus(connectivityManager)
     }

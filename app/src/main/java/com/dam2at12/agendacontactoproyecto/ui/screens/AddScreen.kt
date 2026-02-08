@@ -1,25 +1,10 @@
 package com.dam2at12.agendacontactoproyecto.ui.screens
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -39,21 +24,24 @@ fun AddScreen(navController: NavHostController) {
 
     val viewModel: ContactViewModel = hiltViewModel()
 
-    /*Creamos variables para las credenciales y del toggle de visibilidad de la contraseña
-    y guardamos sus estados con rememberSaveable*/
+    //Recogemos el estado de conexión desde el ViewModel (aseguramos que sea Boolean)
+    val isConnected by viewModel.isConnected.collectAsState(initial = false)
+
+    //Variables para los datos del contacto
     var name by rememberSaveable { mutableStateOf("") }
     var phone by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
     var info by rememberSaveable { mutableStateOf("") }
 
     val context = LocalContext.current
-
+    val scope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
             TopAppBar(title = { Text("Añadir contacto a la agenda") })
         }
     ) { paddingValues ->
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -72,9 +60,7 @@ fun AddScreen(navController: NavHostController) {
             //TextField para el nombre
             OutlinedTextField(
                 value = name,
-                onValueChange = { newText:String ->
-                    name = newText
-                },
+                onValueChange = { name = it },
                 label = { Text("Nombre") },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
@@ -82,11 +68,10 @@ fun AddScreen(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            //TextField para el teléfono
             OutlinedTextField(
                 value = phone,
-                onValueChange = { newText:String ->
-                    phone = newText
-                },
+                onValueChange = { phone = it },
                 label = { Text("Telefono") },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
@@ -94,11 +79,10 @@ fun AddScreen(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            //TextField para el correo
             OutlinedTextField(
                 value = email,
-                onValueChange = { newText:String ->
-                    email = newText
-                },
+                onValueChange = { email = it },
                 label = { Text("Correo") },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
@@ -106,53 +90,59 @@ fun AddScreen(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            //TextField para la descripción
             OutlinedTextField(
                 value = info,
-                onValueChange = { newText:String ->
-                    info = newText
-                },
+                onValueChange = { info = it },
                 label = { Text("Descripción") },
-                singleLine = false,
                 modifier = Modifier.fillMaxWidth()
             )
 
-
             Spacer(modifier = Modifier.height(24.dp))
 
-            /*
-            En el caso de que la conexión a la API tarde más de la cuenta, esta podrá no acabarse antes de que se
-            navegue a la pantalla de Home. Para evitarlo, hemos sincronizado las dos funciones (además de hacer
-            que viewModel.addContact sea suspend) con un scope y así nos aseguramos de que cuando se navegue
-            a Home siempre haya un contacto.
-             */
-            val scope = rememberCoroutineScope()
             //Botón de añadir contacto
             Button(
+                //El botón se desactiva automáticamente si no hay conexión
+                enabled = isConnected,
                 onClick = {
+
+                    //Si no hay conexión, mostramos un mensaje y no hacemos nada
+                    if (!isConnected) {
+                        Toast.makeText(
+                            context,
+                            "No hay conexión a internet",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@Button
+                    }
+
+                    //Si hay conexión, añadimos el contacto
                     scope.launch {
                         viewModel.addContact(name, phone, email, info)
+
                         Toast.makeText(
-                            context, //Contexto donde mostrar el Toast. En este caso: pantalla para agregar tarea
-                            "Tarea agregada correctamente", //Mensaje del toast
-                            Toast.LENGTH_SHORT, //Duración del toast (corta aprox. 2s o larga aprox. 4 s)
-                        ).show() //Muestra el toast en pantalla
+                            context,
+                            "Contacto agregado correctamente",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        //Volvemos a la pantalla principal
                         navController.navigate(Screen.HomeScreen.ruta)
-                        /*
-                    {
-                        Da error cuando la API esta caida, asi que lo comentamos por si acaso.
-                        Lo suyo sería tenerlo para evitar que, tras añadir un contacto, puedas volver
-                        a la pantalla de añadir dicho contacto
-                        popUpTo(0) { inclusive = true }
                     }
-
-                         */
-                    }
-
-
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Añadir contacto")
+            }
+
+            //Mensaje informativo si no hay conexión
+            if (!isConnected) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "No hay conexión a internet. No se pueden añadir contactos.",
+                    color = MaterialTheme.colorScheme.error,
+                    fontSize = 14.sp
+                )
             }
         }
     }
@@ -163,5 +153,4 @@ fun AddScreen(navController: NavHostController) {
 private fun AddScreenPreview() {
     val navController = rememberNavController()
     AddScreen(navController)
-
 }
